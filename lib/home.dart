@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:humangen/drawingarea.dart';
+import 'dart:convert';
+import 'dart:io';
+// allows us to connect to the api
+import 'package:http/http.dart' as http;
+
 
 
 
@@ -19,6 +24,31 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<DrawingArea> points = [];
+
+  void fetchResponse(var bas64Image) async {
+    var data = {"Image": bas64Image};
+
+    // might have to change this to the other local host
+    var url = 'http://127.0.0.1/:5000/predict';
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Connection': 'Keep-Alive',
+    };
+    var body = json.encode(data);
+    try {
+      // holds json data for generated image
+      var response = await http.post(url, body: body, headers: headers);
+
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      String outputBytes = responseData['Image'];
+    } catch(e) {
+      print(" * ERROR has Occured");
+      return null;
+    }
+  }
+
+
   @override
   // following method golds all the UI data
   Widget build(BuildContext context) {
