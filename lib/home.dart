@@ -73,7 +73,7 @@ class _HomeState extends State<Home> {
     Map<String, String> headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
-      'Connection': 'Keep-Alive'
+      //'Connection': 'Keep-Alive',
     };
     var body = json.encode(data);
     try {
@@ -83,9 +83,9 @@ class _HomeState extends State<Home> {
       final Map<String, dynamic> responseData = json.decode(response.body);
       String outputBytes = responseData['Image'];
       print(outputBytes.substring(2, outputBytes.length - 1));
-      
+      displayResponseImage(outputBytes.substring(2, outputBytes.length - 1)); 
     } catch(e) {
-      print(" * ERROR has Occured");
+      print(" * ERROR has Occurred");
       print(e);
       return null;
     }
@@ -197,7 +197,15 @@ class _HomeState extends State<Home> {
                   },)
                 ],
               ),
-            )
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Container(
+                child: Center(
+                  child: Container(height: 256, width: 256, child: imageOutput),
+                ),
+              ),
+            ),
               ],
             ),
           )
