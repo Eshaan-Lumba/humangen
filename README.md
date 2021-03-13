@@ -1,4 +1,4 @@
-# humangen
+# Human Face Generator
 
 A Machine Learning project that creates a real life image from a drawing.
 
